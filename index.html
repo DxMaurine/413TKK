@@ -813,9 +813,9 @@
                 // Disable/enable video prompt
                 const generateVideoBtn = document.getElementById('generate-video-preview-btn');
                 if (generateVideoBtn) {
-                    generateVideoBtn.disabled = !window.gemManager.canSpend(50);
-                    generateVideoBtn.classList.toggle('opacity-60', !window.gemManager.canSpend(50));
-                    generateVideoBtn.classList.toggle('cursor-not-allowed', !window.gemManager.canSpend(50));
+                    generateVideoBtn.disabled = !window.gemManager.canSpend(4);
+                    generateVideoBtn.classList.toggle('opacity-60', !window.gemManager.canSpend(4));
+                    generateVideoBtn.classList.toggle('cursor-not-allowed', !window.gemManager.canSpend(4));
                 }
 
                 // Disable/enable audio
