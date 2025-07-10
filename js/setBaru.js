@@ -1717,6 +1717,56 @@ document
       )
   })
 
+// Custom Model Select with Images
+document.addEventListener('DOMContentLoaded', function() {
+    const customSelect = document.getElementById('custom-model-select');
+    const dropdown = document.getElementById('model-dropdown');
+    const selectedImage = document.getElementById('selected-model-image');
+    const selectedText = document.getElementById('selected-model-text');
+    const hiddenInput = document.getElementById('model-select');
+    const options = document.querySelectorAll('.model-option');
+
+    // Toggle dropdown
+    customSelect.addEventListener('click', function() {
+        dropdown.classList.toggle('hidden');
+    });
+
+    // Handle option selection
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            const image = this.getAttribute('data-image');
+            const text = this.querySelector('span').textContent;
+
+            // Update selected display
+            selectedImage.src = image;
+            selectedText.textContent = text;
+            hiddenInput.value = value;
+
+            // Close dropdown
+            dropdown.classList.add('hidden');
+
+            // Remove active class from all options
+            options.forEach(opt => opt.classList.remove('bg-indigo-100', 'dark:bg-indigo-900'));
+            
+            // Add active class to selected option
+            this.classList.add('bg-indigo-100', 'dark:bg-indigo-900');
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!customSelect.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Set default selection
+    if (options.length > 0) {
+        options[0].classList.add('bg-indigo-100', 'dark:bg-indigo-900');
+    }
+});
+
 // Login Modal Functions
 function openLoginModal() {
     const modal = document.getElementById('login-modal');
