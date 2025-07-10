@@ -50,15 +50,19 @@
               <i class="ph-fill ph-users-three text-3xl text-blue-500 group-hover:text-blue-700"></i>
               <span class="text-xs mt-1 text-gray-700 dark:text-gray-200 group-hover:text-blue-700 font-semibold">Komunitas</span>
            </a>
-           <!-- Profile/Login -->
-           <button id="nav-login" class="flex flex-col items-center justify-center flex-1 px-2 py-2 group focus:outline-none">
-              <i class="ph-fill ph-user-circle text-3xl text-gray-500 group-hover:text-indigo-700"></i>
-              <span class="text-xs mt-1 text-gray-700 dark:text-gray-200 group-hover:text-indigo-700 font-semibold">Login</span>
-           </button>
            <!-- Setting Button -->
            <button id="nav-setting" class="flex flex-col items-center justify-center flex-1 px-2 py-2 group focus:outline-none">
               <i class="ph-fill ph-gear text-3xl text-gray-500 group-hover:text-indigo-700"></i>
               <span class="text-xs mt-1 text-gray-700 dark:text-gray-200 group-hover:text-indigo-700 font-semibold">Setting</span>
+           </button>
+
+           <!-- Separator -->
+           <div class="h-8 w-px bg-gray-300/30 mx-1"></div>
+
+           <!-- Profile/Login -->
+           <button id="nav-login" class="flex flex-col items-center justify-center flex-1 px-2 py-2 group focus:outline-none">
+              <i class="ph-fill ph-user-circle text-3xl text-gray-500 group-hover:text-indigo-700"></i>
+              <span class="text-xs mt-1 text-gray-700 dark:text-gray-200 group-hover:text-indigo-700 font-semibold">Login</span>
            </button>
         </div>
     </nav>
@@ -103,10 +107,39 @@
             }
         });
 
-        // Show Login/Profile Modal (global notif)
+        // Show Login/Profile Modal
         document.getElementById('nav-login').addEventListener('click', function () {
-            showGlobalNotif('Fitur login belum tersedia.');
+            document.getElementById('login-modal').classList.remove('hidden');
+            setTimeout(() => {
+                const content = document.getElementById('login-modal-content');
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
         });
+
+        // Close Login Modal
+        document.getElementById('close-login-modal').addEventListener('click', function () {
+            const content = document.getElementById('login-modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                document.getElementById('login-modal').classList.add('hidden');
+            }, 300);
+        });
+
+        // Close modal if click outside content
+        document.getElementById('login-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                const content = document.getElementById('login-modal-content');
+                content.classList.remove('scale-100', 'opacity-100');
+                content.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    this.classList.add('hidden');
+                }, 300);
+            }
+        });
+
+
 
         // Global Notif function
         window.showGlobalNotif = function (msg) {
@@ -1086,21 +1119,18 @@
                             <button id="idea-btn" title="✨ Beri Ide Acak" class="absolute top-3 right-3 p-1 rounded-full hover:bg-white/60 neumorphic-outset-interactive"><i class="ph ph-lightbulb text-xl text-amber-500"></i></button>
                         </div>
                         <div class="flex flex-wrap gap-2 justify-center mt-2">
-                            <button id="enhance-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
-                                <i class="ph-fill ph-magic-wand"></i>
-                                <span> Enhance</span>
+<button id="enhance-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
+    <i class="ph-fill ph-magic-wand"></i>
+    <span class="whitespace-nowrap">Prompt Magic</span>
+</button>
+                            <button id="copy-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                                <i class="ph-fill ph-copy text-lg"></i>
                             </button>
-                            <button id="copy-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
-                                <i class="ph-fill ph-copy"></i>
-                                <span>Copy</span>
+                            <button id="paste-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                                <i class="ph-fill ph-clipboard text-lg"></i>
                             </button>
-                            <button id="paste-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
-                                <i class="ph-fill ph-clipboard"></i>
-                                <span>Paste</span>
-                            </button>
-                            <button id="clear-btn" class="btn btn-danger action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[100px] max-w-[140px] flex items-center justify-center gap-1">
-                                <i class="ph-fill ph-trash"></i>
-                                <span>Clear</span>
+                            <button id="clear-btn" class="btn btn-danger action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                                <i class="ph-fill ph-trash text-lg"></i>
                             </button>
                         </div>
                         
@@ -1826,6 +1856,112 @@
         
     </main>
     
+    <!-- Login Popup Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm transform transition-all duration-300 scale-95 opacity-0" id="login-modal-content">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="ph-fill ph-user-circle text-indigo-600"></i>
+                    Login
+                </h2>
+                <button id="close-login-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Content -->
+            <div class="p-4">
+                <!-- Social Media Login -->
+                <div class="space-y-2 mb-4">
+                    <h3 class="text-xs font-medium text-gray-700 dark:text-gray-300 text-center mb-3">Login dengan Social Media</h3>
+                    
+                    <!-- Google Login -->
+                    <button class="w-full flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Continue with Google</span>
+                    </button>
+                    
+                    <!-- Facebook Login -->
+                    <button class="w-full flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                        <svg class="w-4 h-4" fill="#1877F2" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Continue with Facebook</span>
+                    </button>
+                    
+                    <!-- Twitter/X Login -->
+                    <button class="w-full flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                        <svg class="w-4 h-4" fill="#000000" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Continue with X</span>
+                    </button>
+                </div>
+                
+                <!-- Divider -->
+                <div class="relative my-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs">
+                        <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">atau</span>
+                    </div>
+                </div>
+                
+                <!-- Email/Password Login -->
+                <form class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <div class="relative">
+                            <input type="email" class="w-full px-3 py-2 pl-8 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="nama@email.com">
+                            <i class="ph ph-envelope absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" class="w-full px-3 py-2 pl-8 pr-8 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="••••••••">
+                            <i class="ph ph-lock absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            <button type="button" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <i class="ph ph-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Remember & Forgot -->
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 h-3 w-3">
+                            <span class="ml-2 text-xs text-gray-600 dark:text-gray-400">Remember me</span>
+                        </label>
+                        <a href="#" class="text-xs text-indigo-600 hover:text-indigo-500">Lupa password?</a>
+                    </div>
+                    
+                    <!-- Login Button -->
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                        <i class="ph-fill ph-sign-in"></i>
+                        Login
+                    </button>
+                </form>
+                
+                <!-- Register Link -->
+                <div class="mt-4 text-center">
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                        Belum punya akun? 
+                        <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">Daftar sekarang</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="py-6" style="padding-bottom: 8rem;">
         <div class="container mx-auto text-center text-sm">
