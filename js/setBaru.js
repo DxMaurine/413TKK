@@ -328,7 +328,7 @@ enhanceBtn.addEventListener('click', async () => {
   }
 })
 ideaBtn.addEventListener('click', async () => {
-  loadingText.textContent = 'Mencari ide...'
+  loadingText.textContent = 'Mencari ide (AI)...'
   loadingIndicator.classList.remove('hidden')
   toggleButtons(true)
   try {
@@ -968,7 +968,7 @@ window.addEventListener('DOMContentLoaded', () => {
         throw new Error('Gagal menghubungi asisten.')
       }
       const _0x3aee60 = await _0x4fd47e.json()
-let responseContent = (response.choices?.[0]?.message?.content || '').trim()
+    let _0x2c9539 = (_0x3aee60.choices?.[0]?.message?.content || '').trim()
       if (!_0x2c9539) {
         _0x2c9539 = 'Maaf, saya tidak dapat memproses permintaan Anda.'
       }
@@ -1701,6 +1701,65 @@ document
         'Panel ini memungkinkan Anda untuk membuat gambar menggunakan AI dengan memasukkan prompt yang diinginkan. Anda dapat mengatur model AI, gaya seni, pencahayaan, ukuran, dan jumlah gambar yang ingin dihasilkan. Gunakan tombol Enhance untuk meningkatkan kualitas prompt Anda, Copy untuk menyalin prompt, Paste untuk menempelkan prompt dari clipboard, dan Clear untuk menghapus prompt yang ada.'
       )
   })
+
+// Login Modal Functions
+function openLoginModal() {
+    const modal = document.getElementById('login-modal');
+    const content = document.getElementById('login-modal-content');
+    
+    modal.classList.remove('hidden');
+    
+    // Animate in
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function closeLoginModal() {
+    const modal = document.getElementById('login-modal');
+    const content = document.getElementById('login-modal-content');
+    
+    // Animate out
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+// Event Listeners for Login Modal
+document.addEventListener('DOMContentLoaded', () => {
+    // Open login modal
+    const loginBtn = document.getElementById('nav-login');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', openLoginModal);
+    }
+    
+    // Close login modal
+    const closeBtn = document.getElementById('close-login-modal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLoginModal);
+    }
+    
+    // Close on backdrop click
+    const modal = document.getElementById('login-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeLoginModal();
+            }
+        });
+    }
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeLoginModal();
+        }
+    });
+});
 const neumorphicToggle = document.getElementById('neumorphic-toggle'),
   neumorphicIcon = document.getElementById('neumorphic-icon'),
   neumorphicText = document.getElementById('neumorphic-text')
@@ -2209,7 +2268,8 @@ class PerformanceOptimizer {
     init() {
         this.detectDeviceCapability();
         this.setupPerformanceMode();
-        this.monitorScrollPerformance();
+        // Ganti scroll monitoring dengan instant detection
+        this.instantPerformanceCheck();
     }
 
     detectDeviceCapability() {
@@ -2322,6 +2382,78 @@ class PerformanceOptimizer {
         this.showPerformanceNotification();
     }
 
+    // BARU: Instant Performance Detection saat page load
+    instantPerformanceCheck() {
+        // Delay 500ms untuk memastikan DOM ready
+        setTimeout(() => {
+            this.runInstantBenchmark();
+        }, 500);
+    }
+
+    // BARU: Mini benchmark test untuk deteksi FPS
+    runInstantBenchmark() {
+        let frameCount = 0;
+        let startTime = performance.now();
+        
+        console.log('🚀 Running instant performance benchmark...');
+        
+        const testAnimation = () => {
+            frameCount++;
+            const currentTime = performance.now();
+            
+            // Test selama 1000ms (1 detik)
+            if (currentTime - startTime < 1000) {
+                // Buat elemen test untuk stress test ringan
+                const testDiv = document.createElement('div');
+                testDiv.style.cssText = `
+                    position: fixed; top: -100px; left: -100px;
+                    width: 50px; height: 50px;
+                    background: linear-gradient(45deg, #ff0000, #00ff00);
+                    transform: rotate(${frameCount}deg) scale(${Math.sin(frameCount * 0.1)});
+                    opacity: 0.01;
+                    border-radius: 50%;
+                    box-shadow: 0 0 20px rgba(255,0,0,0.5);
+                `;
+                document.body.appendChild(testDiv);
+                
+                // Hapus elemen test setelah 10ms
+                setTimeout(() => {
+                    if (testDiv.parentElement) {
+                        testDiv.remove();
+                    }
+                }, 10);
+                
+                requestAnimationFrame(testAnimation);
+            } else {
+                // Hitung FPS hasil test
+                const fps = Math.round((frameCount * 1000) / (currentTime - startTime));
+                console.log(`⚡ Instant FPS Test Result: ${fps} FPS`);
+                
+                // Auto-enable optimasi jika FPS rendah DAN belum manual mode
+                if (fps < 30 && !this.manualMode) {
+                    console.warn('🔥 Low FPS detected on page load, enabling optimizations automatically');
+                    this.performanceLevel = 'low';
+                    this.isLowEndDevice = true;
+                    this.enableLowEndOptimizations();
+                    this.updatePerformanceUI();
+                } else if (fps >= 30 && fps < 45 && !this.manualMode) {
+                    console.log('⚠️ Medium FPS detected, setting medium performance');
+                    this.performanceLevel = 'medium';
+                    this.setupPerformanceMode();
+                    this.updatePerformanceUI();
+                } else {
+                    console.log('✅ Good FPS detected, keeping high performance');
+                }
+                
+                // Tetap jalankan scroll monitoring sebagai backup
+                this.monitorScrollPerformance();
+            }
+        };
+        
+        requestAnimationFrame(testAnimation);
+    }
+
+    // Tetap pertahankan scroll monitoring sebagai backup/fallback
     monitorScrollPerformance() {
         let scrollTimeout;
         let frameCount = 0;
@@ -2334,11 +2466,13 @@ class PerformanceOptimizer {
             if (currentTime - lastTime >= 1000) {
                 const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
                 
-                if (fps < 30 && this.performanceLevel !== 'low') {
-                    console.warn('Low FPS detected during scroll, enabling optimizations');
+                // Hanya aktifkan jika belum manual mode dan FPS sangat rendah
+                if (fps < 25 && !this.manualMode && this.performanceLevel !== 'low') {
+                    console.warn('🔥 Very low FPS detected during scroll, enabling optimizations');
                     this.performanceLevel = 'low';
                     this.isLowEndDevice = true;
                     this.enableLowEndOptimizations();
+                    this.updatePerformanceUI();
                 }
                 
                 frameCount = 0;
