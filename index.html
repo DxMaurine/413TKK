@@ -1039,7 +1039,25 @@
                     <div class="space-y-4">
                         <label for="prompt-input" class="font-medium">Masukkan Prompt Anda</label>
                         <div class="relative">
-                            <textarea id="prompt-input" rows="4" class="w-full p-4 pr-10 text-base neumorphic-inset focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="prompt ide acak dari AI-->"></textarea>
+<textarea id="prompt-input" rows="4" class="w-full p-4 pr-10 text-base neumorphic-inset focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Generate creative ideas..." data-placeholder-texts='["Describe your imagination...", "What would you like to create?", "Let AI inspire you...", "Type your creative prompt...", "Transform words into art..."]'></textarea>
+
+<script>
+// Animate placeholder text
+(function animatePlaceholder() {
+    const textarea = document.getElementById('prompt-input');
+    const texts = JSON.parse(textarea.dataset.placeholderTexts);
+    let currentIndex = 0;
+    
+    function updatePlaceholder() {
+        textarea.placeholder = texts[currentIndex];
+        currentIndex = (currentIndex + 1) % texts.length;
+    }
+    
+    // Change placeholder every 3 seconds
+    setInterval(updatePlaceholder, 3000);
+    updatePlaceholder(); // Initial update
+})();
+</script>
                             <button id="idea-btn" title="✨ Beri Ide Acak" class="absolute top-3 right-3 p-1 rounded-full hover:bg-white/60 neumorphic-outset-interactive"><i class="ph ph-lightbulb text-xl text-amber-500"></i></button>
                         </div>
                         <div class="flex flex-wrap gap-2 justify-center mt-2">
@@ -1063,7 +1081,6 @@
                         
                         <!-- Stock Prompt Accordion -->
                         <div class="mt-4">
-                          
                             <button id="stock-prompt-toggle" type="button"
                                 class="w-full flex items-center justify-between p-3 rounded-md neumorphic-outset-interactive glassmorph transition font-semibold text-sm ai-text-color focus:outline-none"
                                 style="background: var(--glass-bg); border: 1.5px solid var(--glass-border);">
@@ -1128,8 +1145,8 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div> 
+                            </div>   
+                        </div>
                     </div>
                     
                 </section>
