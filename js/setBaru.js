@@ -1,4 +1,4 @@
-// Deobfuscation
+// Deobfuscation failed
 let generatedImagesData = [],
   selectedForEnhancement = null
 const generateBtn = document.getElementById('generate-btn'),
@@ -2192,5 +2192,270 @@ if (seeFullViewBtn) {
         }
     });
 }
+
+// ... existing code ...
+
+// ... existing code ...
+
+// Performance Optimization System (Fixed)
+class PerformanceOptimizer {
+    constructor() {
+        this.isLowEndDevice = false;
+        this.performanceLevel = 'high'; // high, medium, low
+        this.manualMode = false; // Track if user manually set performance
+        this.init();
+    }
+
+    init() {
+        this.detectDeviceCapability();
+        this.setupPerformanceMode();
+        this.monitorScrollPerformance();
+    }
+
+    detectDeviceCapability() {
+        // Deteksi berdasarkan hardware concurrency (jumlah core CPU)
+        const cores = navigator.hardwareConcurrency || 2;
+        
+        // Deteksi berdasarkan memory (jika tersedia)
+        const memory = navigator.deviceMemory || 2;
+        
+        // Deteksi berdasarkan connection speed
+        const connection = navigator.connection;
+        const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+        
+        // Deteksi berdasarkan user agent (mobile devices)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Deteksi berdasarkan screen resolution
+        const isLowRes = window.screen.width < 1024 || window.screen.height < 768;
+        
+        // Performance scoring
+        let score = 0;
+        if (cores >= 4) score += 2;
+        else if (cores >= 2) score += 1;
+        
+        if (memory >= 4) score += 2;
+        else if (memory >= 2) score += 1;
+        
+        if (!isMobile) score += 1;
+        if (!isLowRes) score += 1;
+        if (!isSlowConnection) score += 1;
+        
+        // Don't auto-enable low performance unless manually set
+        if (score >= 6) {
+            this.performanceLevel = 'high';
+        } else if (score >= 3) {
+            this.performanceLevel = 'medium';
+        } else {
+            this.performanceLevel = 'low';
+            // Only mark as low-end if score is very low, but don't auto-enable
+            this.isLowEndDevice = (score <= 1);
+        }
+        
+        console.log(`Performance Level: ${this.performanceLevel} (Score: ${score})`);
+    }
+
+    setupPerformanceMode() {
+        const body = document.body;
+        
+        // Remove existing performance classes
+        body.classList.remove('performance-low', 'performance-medium', 'performance-high');
+        
+        // Add performance class
+        body.classList.add(`performance-${this.performanceLevel}`);
+        
+        // Only apply optimizations if manually enabled or very low-end device
+        if (this.manualMode && this.performanceLevel === 'low') {
+            this.enableLowEndOptimizations();
+        } else {
+            // Remove optimizations if not in manual low mode
+            const style = document.getElementById('performance-optimizations');
+            if (style) style.remove();
+        }
+    }
+
+    enableLowEndOptimizations() {
+        // Remove existing style first
+        const existingStyle = document.getElementById('performance-optimizations');
+        if (existingStyle) existingStyle.remove();
+        
+        // Disable heavy animations and effects
+        const style = document.createElement('style');
+        style.id = 'performance-optimizations';
+        style.textContent = `
+            /* Low-end device optimizations - PRESERVES 3D MODE */
+            body.performance-low * {
+                animation-duration: 0.2s !important;
+                transition-duration: 0.2s !important;
+            }
+            
+            /* Only optimize when NOT in 3D mode */
+            body.performance-low:not(.neumorphic-3d) .glassmorph,
+            body.performance-low:not(.neumorphic-3d) .neumorphic-outset,
+            body.performance-low:not(.neumorphic-3d) .neumorphic-inset {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+            }
+            
+            /* Preserve 3D effects when in 3D mode */
+            body.performance-low.neumorphic-3d .glassmorph,
+            body.performance-low.neumorphic-3d .neumorphic-outset,
+            body.performance-low.neumorphic-3d .neumorphic-inset {
+                /* Keep original 3D shadows */
+            }
+            
+            /* Disable hover effects on low-end devices */
+            body.performance-low .neumorphic-outset-interactive:hover,
+            body.performance-low .tool-btn:hover {
+                transform: none !important;
+            }
+            
+            /* Simplify scrolling elements */
+            body.performance-low ::-webkit-scrollbar {
+                width: 8px;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Show performance notification
+        this.showPerformanceNotification();
+    }
+
+    monitorScrollPerformance() {
+        let scrollTimeout;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        
+        const checkScrollPerformance = () => {
+            frameCount++;
+            const currentTime = performance.now();
+            
+            if (currentTime - lastTime >= 1000) {
+                const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                
+                if (fps < 30 && this.performanceLevel !== 'low') {
+                    console.warn('Low FPS detected during scroll, enabling optimizations');
+                    this.performanceLevel = 'low';
+                    this.isLowEndDevice = true;
+                    this.enableLowEndOptimizations();
+                }
+                
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            
+            if (scrollTimeout) {
+                requestAnimationFrame(checkScrollPerformance);
+            }
+        };
+        
+        window.addEventListener('scroll', () => {
+            if (!scrollTimeout) {
+                scrollTimeout = true;
+                requestAnimationFrame(checkScrollPerformance);
+            }
+        });
+        
+        window.addEventListener('scrollend', () => {
+            scrollTimeout = false;
+        });
+    }
+
+    showPerformanceNotification() {
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-blue-500 text-white p-3 rounded-lg shadow-lg z-50 text-sm max-w-xs';
+        notification.innerHTML = `
+            <div class="flex items-center gap-2">
+                <i class="ph-fill ph-lightning text-lg"></i>
+                <div>
+                    <div class="font-semibold">Mode Performa Aktif</div>
+                    <div class="text-xs opacity-90">Efek visual dikurangi untuk performa optimal</div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-2 hover:bg-blue-600 rounded p-1">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    // Method to manually toggle performance mode
+    togglePerformanceMode() {
+        this.manualMode = true;
+        
+        if (this.performanceLevel === 'low') {
+            this.performanceLevel = 'high';
+            this.isLowEndDevice = false;
+        } else {
+            this.performanceLevel = 'low';
+            this.isLowEndDevice = true;
+        }
+        this.setupPerformanceMode();
+        this.updatePerformanceUI();
+    }
+    
+    // New method to set specific performance level
+    setPerformanceLevel(level) {
+        this.manualMode = true;
+        this.performanceLevel = level;
+        this.isLowEndDevice = (level === 'low');
+        this.setupPerformanceMode();
+        this.updatePerformanceUI();
+    }
+    
+    // Update UI to show current performance level
+    updatePerformanceUI() {
+        const performanceToggle = document.getElementById('performance-toggle');
+        const performanceLevelSelect = document.getElementById('performance-level-select');
+        
+        if (performanceToggle) {
+            performanceToggle.checked = this.performanceLevel === 'low';
+        }
+        
+        if (performanceLevelSelect) {
+            performanceLevelSelect.value = this.performanceLevel;
+        }
+    }
+}
+
+// Initialize Performance Optimizer
+const performanceOptimizer = new PerformanceOptimizer();
+
+// Setup performance controls
+document.addEventListener('DOMContentLoaded', () => {
+    const performanceToggle = document.getElementById('performance-toggle');
+    const performanceLevelSelect = document.getElementById('performance-level-select');
+    
+    if (performanceToggle) {
+        // Set initial state
+        performanceToggle.checked = performanceOptimizer.performanceLevel === 'low';
+        
+        // Add event listener
+        performanceToggle.addEventListener('change', () => {
+            performanceOptimizer.togglePerformanceMode();
+        });
+    }
+    
+    if (performanceLevelSelect) {
+        // Set initial state
+        performanceLevelSelect.value = performanceOptimizer.performanceLevel;
+        
+        // Add event listener
+        performanceLevelSelect.addEventListener('change', (e) => {
+            performanceOptimizer.setPerformanceLevel(e.target.value);
+        });
+    }
+});
+
+// Keep the original neumorphic toggle functionality intact
 
 // ... existing code ...
