@@ -1,4 +1,4 @@
-// Deobfuscation failed
+// Deobfuscation
 let generatedImagesData = [],
   selectedForEnhancement = null
 const generateBtn = document.getElementById('generate-btn'),
@@ -447,7 +447,7 @@ async function generateImage(_0x545859) {
         })
         let _0x2d77ea = document.createElement('div'),
           _0x3a16ae = _0xd47eb2.length
-        if (_0x3a16ae === 2) {
+        if (_0x3a16ae === 1 || _0x3a16ae === 2) {
           imageGrid.className = 'flex flex-col gap-4 overflow-auto max-h-[60vh]'
           _0x2d77ea.className =
             'preview-slot aspect-square neumorphic-inset flex items-center justify-center text-center p-2 relative cursor-pointer'
@@ -1891,3 +1891,306 @@ closeSettingModal.addEventListener('click', () => {
 settingModal.addEventListener('click', (_0x25aaea) => {
   _0x25aaea.target === settingModal && settingModal.classList.add('hidden')
 })
+
+// ... existing code ...
+
+// Full View Modal Functions
+const fullViewModal = document.getElementById('full-view-modal');
+const fullViewImage = document.getElementById('full-view-image');
+const fullViewPrompt = document.getElementById('full-view-prompt');
+const closeFullViewBtn = document.getElementById('close-full-view-btn');
+const fullViewDownloadBtn = document.getElementById('full-view-download-btn');
+
+// Function to show full view modal with dynamic sizing
+function showFullViewModal(imageUrl, prompt) {
+    fullViewImage.src = imageUrl;
+    fullViewPrompt.textContent = prompt;
+    
+    // Calculate optimal size while maintaining aspect ratio
+    fullViewImage.onload = function() {
+        const img = this;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const maxWidth = windowWidth * 0.95; // 95% of viewport width
+        const maxHeight = windowHeight * 0.95; // 95% of viewport height
+        
+        // Get original image dimensions
+        const originalWidth = img.naturalWidth;
+        const originalHeight = img.naturalHeight;
+        const aspectRatio = originalWidth / originalHeight;
+        
+        // Calculate optimal dimensions
+        let optimalWidth = originalWidth;
+        let optimalHeight = originalHeight;
+        
+        // Scale down if image is larger than viewport
+        if (optimalWidth > maxWidth) {
+            optimalWidth = maxWidth;
+            optimalHeight = optimalWidth / aspectRatio;
+        }
+        
+        if (optimalHeight > maxHeight) {
+            optimalHeight = maxHeight;
+            optimalWidth = optimalHeight * aspectRatio;
+        }
+        
+        // Apply calculated dimensions
+        img.style.width = optimalWidth + 'px';
+        img.style.height = optimalHeight + 'px';
+        
+        // Adjust button positions based on aspect ratio
+        const downloadBtn = fullViewDownloadBtn;
+        const shareBtn = fullViewShareBtn;
+        
+        if (aspectRatio < 1) { // Portrait orientation (height > width)
+            // Move download button to top-left for portrait images
+            downloadBtn.classList.remove('bottom-4', 'right-4');
+            downloadBtn.classList.add('top-4', 'left-4');
+            downloadBtn.style.position = 'absolute';
+            downloadBtn.style.top = '1rem';
+            downloadBtn.style.left = '1rem';
+            downloadBtn.style.bottom = 'auto';
+            downloadBtn.style.right = 'auto';
+            
+            // Move share button to top-right for portrait images
+            shareBtn.classList.remove('bottom-4', 'right-16');
+            shareBtn.classList.add('top-4', 'right-4');
+            shareBtn.style.position = 'absolute';
+            shareBtn.style.top = '1rem';
+            shareBtn.style.left = 'auto';
+            shareBtn.style.bottom = 'auto';
+            shareBtn.style.right = '1rem';
+        } else { // Landscape or square orientation
+            // Keep download button at bottom-right for landscape/square images
+            downloadBtn.classList.remove('top-4', 'left-4');
+            downloadBtn.classList.add('bottom-4', 'right-4');
+            downloadBtn.style.position = 'absolute';
+            downloadBtn.style.top = 'auto';
+            downloadBtn.style.left = 'auto';
+            downloadBtn.style.bottom = '1rem';
+            downloadBtn.style.right = '1rem';
+            
+            // Keep share button next to download button for landscape/square images
+            shareBtn.classList.remove('top-4', 'right-4');
+            shareBtn.classList.add('bottom-4', 'right-16');
+            shareBtn.style.position = 'absolute';
+            shareBtn.style.top = 'auto';
+            shareBtn.style.left = 'auto';
+            shareBtn.style.bottom = '1rem';
+            shareBtn.style.right = '4rem'; // 4rem = 64px spacing from right
+        }
+    };
+    
+    // Setup download functionality
+    fullViewDownloadBtn.onclick = async (e) => {
+        e.stopPropagation();
+        await downloadImage(imageUrl, prompt);
+    };
+    
+    // Show modal
+    fullViewModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+// Social Sharing Functions
+const socialShareModal = document.getElementById('social-share-modal');
+const fullViewShareBtn = document.getElementById('full-view-share-btn');
+const closeShareModal = document.getElementById('close-share-modal');
+
+// Function to convert image to base64 for sharing
+async function imageToBase64(imageUrl) {
+    try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
+    } catch (error) {
+        console.error('Error converting image to base64:', error);
+        return null;
+    }
+}
+
+// Function to show social share modal
+function showSocialShareModal() {
+    socialShareModal.classList.remove('hidden');
+}
+
+// Function to close social share modal
+function closeSocialShareModal() {
+    socialShareModal.classList.add('hidden');
+}
+
+// Function to share to Facebook
+function shareToFacebook(imageUrl, prompt) {
+    const shareText = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨`;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400');
+}
+
+// Function to share to Twitter/X
+function shareToTwitter(imageUrl, prompt) {
+    const shareText = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨\n\n#AIArt #TKKImagen`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(window.location.href)}`;
+    window.open(twitterUrl, '_blank', 'width=600,height=400');
+}
+
+// Function to share to WhatsApp
+function shareToWhatsApp(imageUrl, prompt) {
+    const shareText = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨\n\n${window.location.href}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Function to share to Telegram
+function shareToTelegram(imageUrl, prompt) {
+    const shareText = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨`;
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(shareText)}`;
+    window.open(telegramUrl, '_blank');
+}
+
+// Function to copy link to clipboard
+async function copyLinkToClipboard(imageUrl, prompt) {
+    try {
+        const shareText = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨\n\n${window.location.href}`;
+        await navigator.clipboard.writeText(shareText);
+        
+        // Show success feedback
+        const copyBtn = document.getElementById('share-copy-link');
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="ph-fill ph-check text-xl"></i><span class="text-sm font-medium">Tersalin!</span>';
+        copyBtn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
+        copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+            copyBtn.classList.add('bg-gray-600', 'hover:bg-gray-700');
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = `Lihat gambar AI yang saya buat dengan prompt: "${prompt}"\n\nDibuat menggunakan TKK IMAGEN V4 🎨✨\n\n${window.location.href}`;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }
+}
+
+// Event listeners for social sharing
+fullViewShareBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showSocialShareModal();
+});
+
+closeShareModal.addEventListener('click', closeSocialShareModal);
+
+// Close share modal when clicking outside
+socialShareModal.addEventListener('click', (e) => {
+    if (e.target === socialShareModal) {
+        closeSocialShareModal();
+    }
+});
+
+// Social platform event listeners
+document.getElementById('share-facebook').addEventListener('click', () => {
+    const imageUrl = fullViewImage.src;
+    const prompt = fullViewPrompt.textContent;
+    shareToFacebook(imageUrl, prompt);
+    closeSocialShareModal();
+});
+
+document.getElementById('share-twitter').addEventListener('click', () => {
+    const imageUrl = fullViewImage.src;
+    const prompt = fullViewPrompt.textContent;
+    shareToTwitter(imageUrl, prompt);
+    closeSocialShareModal();
+});
+
+document.getElementById('share-whatsapp').addEventListener('click', () => {
+    const imageUrl = fullViewImage.src;
+    const prompt = fullViewPrompt.textContent;
+    shareToWhatsApp(imageUrl, prompt);
+    closeSocialShareModal();
+});
+
+document.getElementById('share-telegram').addEventListener('click', () => {
+    const imageUrl = fullViewImage.src;
+    const prompt = fullViewPrompt.textContent;
+    shareToTelegram(imageUrl, prompt);
+    closeSocialShareModal();
+});
+
+document.getElementById('share-copy-link').addEventListener('click', () => {
+    const imageUrl = fullViewImage.src;
+    const prompt = fullViewPrompt.textContent;
+    copyLinkToClipboard(imageUrl, prompt);
+});
+
+// Function to close full view modal
+function closeFullViewModal() {
+    fullViewModal.classList.add('hidden');
+    socialShareModal.classList.add('hidden'); // Close share modal too
+    document.body.style.overflow = ''; // Restore scrolling
+    fullViewImage.src = '';
+    fullViewImage.style.width = '';
+    fullViewImage.style.height = '';
+    
+    // Reset download button position
+    const downloadBtn = fullViewDownloadBtn;
+    downloadBtn.classList.remove('top-4', 'left-4', 'bottom-4', 'right-4');
+    downloadBtn.classList.add('bottom-4', 'right-4');
+    downloadBtn.style.position = 'absolute';
+    downloadBtn.style.top = 'auto';
+    downloadBtn.style.left = 'auto';
+    downloadBtn.style.bottom = '1rem';
+    downloadBtn.style.right = '1rem';
+    
+    // Reset share button position
+    const shareBtn = fullViewShareBtn;
+    shareBtn.classList.remove('top-4', 'right-4', 'bottom-4', 'right-16');
+    shareBtn.classList.add('bottom-4', 'right-16');
+    shareBtn.style.position = 'absolute';
+    shareBtn.style.top = 'auto';
+    shareBtn.style.left = 'auto';
+    shareBtn.style.bottom = '1rem';
+    shareBtn.style.right = '4rem';
+}
+
+// Event listeners for full view modal
+closeFullViewBtn.addEventListener('click', closeFullViewModal);
+
+// Close modal when clicking outside the image
+fullViewModal.addEventListener('click', (e) => {
+    if (e.target === fullViewModal) {
+        closeFullViewModal();
+    }
+});
+
+// Keyboard support (ESC to close)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !fullViewModal.classList.contains('hidden')) {
+        closeFullViewModal();
+    }
+});
+
+// Connect the "See Full View" button to the new modal
+const seeFullViewBtn = document.getElementById('see-full-view-btn');
+if (seeFullViewBtn) {
+    seeFullViewBtn.addEventListener('click', () => {
+        const currentImageSrc = previewImage.src;
+        const currentPrompt = previewPrompt.textContent;
+        
+        if (currentImageSrc && currentPrompt) {
+            closePreviewModal(); // Close the current preview modal
+            showFullViewModal(currentImageSrc, currentPrompt); // Open full view
+        }
+    });
+}
+
+// ... existing code ...
