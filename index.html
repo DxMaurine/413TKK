@@ -1157,7 +1157,7 @@
                         <div>
                             <label for="art-style-select" class="font-medium mb-2 block">Art Style</label>
                             <select id="art-style-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="" disabled selected>--Select Style--</option>
+                                <option value="" disabled selected>--Otomatis--</option>
                                 <option value="photographic style">photographic</option>
                                 <option value="realistic style">realistic</option>
                                 <option value="digital art style">digital art</option>
@@ -1202,12 +1202,19 @@
                                 <option value="watercolor painting style">watercolor painting</option>
                                 <option value="pastel painting style">pastel painting</option>
                                 <option value="charcoal painting style">charcoal painting</option>
+                                <option value="art brut style">art brut</option>
+                                <option value="naive art style">naive art</option>
+                                <option value="outsider art style">outsider art</option>
+                                <option value="folk art style">folk art</option>
+                                <option value="primitive art style">primitive art</option>
+                                <option value="raw art style">raw art</option>
+                                <option value="visionary art style">visionary art</option>
                             </select>
                         </div>
                         <div>
                             <label for="style-select" class="font-medium mb-2 block">Lighting Style</label>
                             <select id="style-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="" disabled selected>--Select Lighting--</option>
+                                <option value="" disabled selected>--Otomatis--</option>
                                 <option value="cinematic lighting">cinematic</option>
                                 <option value="dramatic lighting">dramatic</option>
                                 <option value="natural lighting">natural</option>
@@ -1829,10 +1836,14 @@
                 <div class="text-gray-600 text-sm neumorphic-inset p-3 flex-grow overflow-y-auto h-32 md:h-auto">
                     <p id="preview-prompt"></p>
                 </div>
-                <div class="mt-4">
+                <div class="mt-4 space-y-2">
                     <button id="reuse-prompt-btn" class="btn btn-secondary w-full text-sm space-x-2">
                         <i class="ph-fill ph-arrow-clockwise"></i>
                         <span>Gunakan Ulang Prompt</span>
+                    </button>
+                    <button id="see-full-view-btn" class="btn btn-secondary w-full text-sm space-x-2">
+                        <i class="ph-fill ph-arrows-out-simple"></i>
+                        <span>See Full View</span>
                     </button>
                 </div>
             </div>
@@ -1864,57 +1875,88 @@
 
             <div class="flex gap-4">
                 <a href="https://www.facebook.com/groups/407347088866675" target="_blank" class="btn btn-secondary text-sm w-1/2">Kontak Admin</a>
-<button id="send-donation-btn" class="btn btn-primary text-sm w-1/2">Kirim Donasi</button>
-
-<!-- Donation Modal -->
-<div id="donation-modal" class="hidden fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-    <div class="glassmorph neumorphic-outset max-w-sm w-full p-6 rounded-2xl relative">
-        <button id="close-donation-modal" class="absolute top-3 right-3 p-2 rounded-full neumorphic-outset-interactive">
-            <i class="ph-fill ph-x"></i>
-        </button>
-        <h3 class="text-xl font-bold mb-4 flex items-center justify-center gap-2">
-            <i class="ph-fill ph-heart text-red-500"></i>
-            Donasi
-        </h3>
-        <div class="space-y-4">
-            <div class="text-center text-sm text-gray-600">
-                Dukung pengembangan TKK IMAGEN dengan donasi Anda
-            </div>
-            <div class="flex flex-col gap-3">
-                <button class="btn btn-secondary w-full flex items-center justify-between px-4">
-                    <span>Dana</span>
-                    <span>0812-3456-7890</span>
-                </button>
-                <button class="btn btn-secondary w-full flex items-center justify-between px-4">
-                    <span>GoPay</span>
-                    <span>0812-3456-7890</span>
-                </button>
+                <button id="send-donation-btn" class="btn btn-primary text-sm w-1/2">Kirim Donasi</button>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const donationBtn = document.getElementById('send-donation-btn');
-    const donationModal = document.getElementById('donation-modal');
-    const closeBtn = document.getElementById('close-donation-modal');
-
-    donationBtn.addEventListener('click', function() {
-        donationModal.classList.remove('hidden');
-    });
-
-    closeBtn.addEventListener('click', function() {
-        donationModal.classList.add('hidden');
-    });
-
-    donationModal.addEventListener('click', function(e) {
-        if (e.target === donationModal) {
-            donationModal.classList.add('hidden');
-        }
-    });
-});
-</script>
+        <!-- FULL VIEW MODAL -->
+    <div id="full-view-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+        <div class="relative w-full h-full flex items-center justify-center">
+            <!-- Close Button -->
+            <button id="close-full-view-btn" class="absolute top-4 right-4 p-3 bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors z-10">
+                <i class="ph-fill ph-x text-2xl"></i>
+            </button>
+            
+            <!-- Image Container with Dynamic Sizing -->
+            <div id="full-view-container" class="relative max-w-[95vw] max-h-[95vh] flex items-center justify-center">
+                <img id="full-view-image" src="" alt="Full View Image" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
+                
+                <!-- Download Button -->
+                <button id="full-view-download-btn" class="absolute bottom-4 right-4 p-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors">
+                    <i class="ph-fill ph-download-simple text-xl"></i>
+                </button>
+                
+                <!-- Social Share Button -->
+                <button id="full-view-share-btn" class="absolute bottom-4 right-16 p-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors">
+                    <i class="ph-fill ph-share-network text-xl"></i>
+                </button>
+                
+                <!-- Image Info -->
+                <div id="full-view-info" class="absolute bottom-4 left-4 bg-black/50 text-white p-3 rounded-lg max-w-xs">
+                    <p class="text-sm font-medium mb-1">Prompt:</p>
+                    <p id="full-view-prompt" class="text-xs opacity-90"></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social Sharing Modal -->
+        <div id="social-share-modal" class="hidden absolute inset-0 bg-black/50 flex items-center justify-center z-20">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold">Bagikan Gambar</h3>
+                    <button id="close-share-modal" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                        <i class="ph-fill ph-x text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Facebook -->
+                    <button id="share-facebook" class="flex items-center gap-2 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="ph-fill ph-facebook-logo text-xl"></i>
+                        <span class="text-sm font-medium">Facebook</span>
+                    </button>
+                    
+                    <!-- Twitter/X -->
+                    <button id="share-twitter" class="flex items-center gap-2 p-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="ph-fill ph-twitter-logo text-xl"></i>
+                        <span class="text-sm font-medium">Twitter</span>
+                    </button>
+                    
+                    <!-- WhatsApp -->
+                    <button id="share-whatsapp" class="flex items-center gap-2 p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                        <span class="text-sm font-medium">WhatsApp</span>
+                    </button>
+                    
+                    <!-- Telegram -->
+                    <button id="share-telegram" class="flex items-center gap-2 p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="ph-fill ph-telegram-logo text-xl"></i>
+                        <span class="text-sm font-medium">Telegram</span>
+                    </button>
+                    
+                    <!-- Copy Link -->
+                    <button id="share-copy-link" class="flex items-center gap-2 p-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors col-span-2">
+                        <i class="ph-fill ph-copy text-xl"></i>
+                        <span class="text-sm font-medium">Salin Link</span>
+                    </button>
+                </div>
+                
+                <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
+                        💡 Tip: Gambar akan dikonversi ke format yang dapat dibagikan
+                    </p>
+                </div>
             </div>
         </div>
     </div>
