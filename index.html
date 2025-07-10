@@ -321,6 +321,31 @@
                     <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5"></div>
                 </label>
             </div>
+            
+            <!-- Mode Performa -->
+            <div class="flex flex-col gap-2 mb-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="font-medium">Mode Performa</span>
+                        <i class="ph ph-lightning text-blue-500 text-sm" title="Mengoptimalkan performa untuk perangkat low-spec"></i>
+                    </div>
+                    <label class="inline-flex items-center cursor-pointer relative">
+                        <input type="checkbox" id="performance-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-300 peer-checked:bg-blue-500"></div>
+                        <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5"></div>
+                    </label>
+                </div>
+                
+                <!-- Performance Level Selector -->
+                <div class="flex items-center gap-2">
+                    <label for="performance-level-select" class="text-sm text-gray-600">Level:</label>
+                    <select id="performance-level-select" class="flex-1 p-2 text-sm neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="high">High (Efek Penuh)</option>
+                        <option value="medium">Medium (Efek Sedang)</option>
+                        <option value="low">Low (Performa Optimal)</option>
+                    </select>
+                </div>
+            </div>
            
             <!-- API KEY -->
             <div class="flex flex-col gap-2 mb-4">
