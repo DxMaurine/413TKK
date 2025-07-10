@@ -325,6 +325,14 @@ enhanceBtn.addEventListener('click', async () => {
   } finally {
     loadingIndicator.classList.add('hidden')
     toggleButtons(false)
+    
+    // Show success animation if images were generated successfully
+    if (generatedImagesData.length > 0) {
+        // Delay success animation slightly to let loading disappear first
+        setTimeout(() => {
+            showSuccessAnimation();
+        }, 300);
+    }
   }
 })
 ideaBtn.addEventListener('click', async () => {
@@ -477,6 +485,13 @@ async function generateImage(_0x545859) {
         }
         _0x2d77ea.onclick = () => showPreviewModal(_0xe4da85, _0x4c78d8)
         addToHistory(_0xe4da85, _0x4c78d8)
+        
+        // Show success animation after first image is added
+        if (_0x39f10c === 0) {
+          setTimeout(() => {
+            showSuccessAnimation();
+          }, 500);
+        }
       } else {
         console.error(
           'Failed to generate image ' + (_0x39f10c + 1) + ':',
@@ -1997,47 +2012,27 @@ function showFullViewModal(imageUrl, prompt) {
         img.style.width = optimalWidth + 'px';
         img.style.height = optimalHeight + 'px';
         
-        // Adjust button positions based on aspect ratio
+        // Move both buttons to top-left for all orientations
         const downloadBtn = fullViewDownloadBtn;
         const shareBtn = fullViewShareBtn;
         
-        if (aspectRatio < 1) { // Portrait orientation (height > width)
-            // Move download button to top-left for portrait images
-            downloadBtn.classList.remove('bottom-4', 'right-4');
-            downloadBtn.classList.add('top-4', 'left-4');
-            downloadBtn.style.position = 'absolute';
-            downloadBtn.style.top = '1rem';
-            downloadBtn.style.left = '1rem';
-            downloadBtn.style.bottom = 'auto';
-            downloadBtn.style.right = 'auto';
-            
-            // Move share button to top-right for portrait images
-            shareBtn.classList.remove('bottom-4', 'right-16');
-            shareBtn.classList.add('top-4', 'right-4');
-            shareBtn.style.position = 'absolute';
-            shareBtn.style.top = '1rem';
-            shareBtn.style.left = 'auto';
-            shareBtn.style.bottom = 'auto';
-            shareBtn.style.right = '1rem';
-        } else { // Landscape or square orientation
-            // Keep download button at bottom-right for landscape/square images
-            downloadBtn.classList.remove('top-4', 'left-4');
-            downloadBtn.classList.add('bottom-4', 'right-4');
-            downloadBtn.style.position = 'absolute';
-            downloadBtn.style.top = 'auto';
-            downloadBtn.style.left = 'auto';
-            downloadBtn.style.bottom = '1rem';
-            downloadBtn.style.right = '1rem';
-            
-            // Keep share button next to download button for landscape/square images
-            shareBtn.classList.remove('top-4', 'right-4');
-            shareBtn.classList.add('bottom-4', 'right-16');
-            shareBtn.style.position = 'absolute';
-            shareBtn.style.top = 'auto';
-            shareBtn.style.left = 'auto';
-            shareBtn.style.bottom = '1rem';
-            shareBtn.style.right = '4rem'; // 4rem = 64px spacing from right
-        }
+        // Move download button to top-left
+        downloadBtn.classList.remove('bottom-4', 'right-4', 'top-4', 'right-4');
+        downloadBtn.classList.add('top-4', 'left-4');
+        downloadBtn.style.position = 'absolute';
+        downloadBtn.style.top = '1rem';
+        downloadBtn.style.left = '1rem';
+        downloadBtn.style.bottom = 'auto';
+        downloadBtn.style.right = 'auto';
+        
+        // Move share button next to download button (top-left area)
+        shareBtn.classList.remove('bottom-4', 'right-16', 'top-4', 'right-4');
+        shareBtn.classList.add('top-4', 'left-16');
+        shareBtn.style.position = 'absolute';
+        shareBtn.style.top = '1rem';
+        shareBtn.style.left = '4rem'; // 4rem = 64px spacing from left
+        shareBtn.style.bottom = 'auto';
+        shareBtn.style.right = 'auto';
     };
     
     // Setup download functionality
@@ -2200,25 +2195,25 @@ function closeFullViewModal() {
     fullViewImage.style.width = '';
     fullViewImage.style.height = '';
     
-    // Reset download button position
+    // Reset download button position to top-left
     const downloadBtn = fullViewDownloadBtn;
     downloadBtn.classList.remove('top-4', 'left-4', 'bottom-4', 'right-4');
-    downloadBtn.classList.add('bottom-4', 'right-4');
+    downloadBtn.classList.add('top-4', 'left-4');
     downloadBtn.style.position = 'absolute';
-    downloadBtn.style.top = 'auto';
-    downloadBtn.style.left = 'auto';
-    downloadBtn.style.bottom = '1rem';
-    downloadBtn.style.right = '1rem';
+    downloadBtn.style.top = '1rem';
+    downloadBtn.style.left = '1rem';
+    downloadBtn.style.bottom = 'auto';
+    downloadBtn.style.right = 'auto';
     
-    // Reset share button position
+    // Reset share button position to top-left area
     const shareBtn = fullViewShareBtn;
-    shareBtn.classList.remove('top-4', 'right-4', 'bottom-4', 'right-16');
-    shareBtn.classList.add('bottom-4', 'right-16');
+    shareBtn.classList.remove('top-4', 'right-4', 'bottom-4', 'right-16', 'left-16');
+    shareBtn.classList.add('top-4', 'left-16');
     shareBtn.style.position = 'absolute';
-    shareBtn.style.top = 'auto';
-    shareBtn.style.left = 'auto';
-    shareBtn.style.bottom = '1rem';
-    shareBtn.style.right = '4rem';
+    shareBtn.style.top = '1rem';
+    shareBtn.style.left = '4rem';
+    shareBtn.style.bottom = 'auto';
+    shareBtn.style.right = 'auto';
 }
 
 // Event listeners for full view modal
@@ -2254,7 +2249,105 @@ if (seeFullViewBtn) {
 
 // ... existing code ...
 
-// ... existing code ...
+// Enhanced Success Animation Function with Glassmorphism
+function showSuccessAnimation() {
+    // Create success overlay
+    const successOverlay = document.createElement('div');
+    successOverlay.className = 'fixed inset-0 bg-black/20 backdrop-blur-md z-50 flex items-center justify-center p-4';
+    successOverlay.id = 'success-animation-overlay';
+    
+    // Detect current theme
+    const isDark = document.body.classList.contains('dark-mode') || document.documentElement.classList.contains('dark');
+    const themeClasses = isDark 
+        ? 'bg-gray-900/80 border-gray-700/50 text-white' 
+        : 'bg-white/80 border-white/50 text-gray-900';
+    
+    // Create success content with glassmorphism
+    successOverlay.innerHTML = `
+        <div class="${themeClasses} backdrop-blur-xl border rounded-full shadow-2xl p-12 text-center transform transition-all duration-700 scale-0 opacity-0 hover:scale-105" id="success-content" style="width: 320px; height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <!-- Animated Icons Container -->
+            <div class="relative mb-4">
+                <!-- Thumbs Up Icon with Glow -->
+                <div class="inline-block relative">
+                    <i class="ph-fill ph-thumbs-up text-7xl text-green-400 animate-bounce drop-shadow-lg" style="animation-delay: 0.2s; filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.5));"></i>
+                </div>
+                
+                <!-- Floating Stars with Better Animation -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-2xl animate-float-1" style="top: -15px; left: -25px; animation-delay: 0.5s;"></i>
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-xl animate-float-2" style="top: -20px; right: -20px; animation-delay: 0.7s;"></i>
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-lg animate-float-3" style="bottom: -15px; left: -15px; animation-delay: 0.9s;"></i>
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-xl animate-float-4" style="bottom: -20px; right: -30px; animation-delay: 1.1s;"></i>
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-sm animate-float-5" style="top: 50%; left: -35px; animation-delay: 1.3s;"></i>
+                    <i class="ph-fill ph-star absolute text-yellow-300 text-sm animate-float-6" style="top: 50%; right: -35px; animation-delay: 1.5s;"></i>
+                </div>
+                
+                <!-- Sparkle Particles -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute w-2 h-2 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full animate-sparkle-1" style="top: 10px; left: 10px;"></div>
+                    <div class="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-sparkle-2" style="top: 20px; right: 15px;"></div>
+                    <div class="absolute w-1.5 h-1.5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-sparkle-3" style="bottom: 15px; left: 20px;"></div>
+                    <div class="absolute w-1 h-1 bg-gradient-to-r from-orange-400 to-red-400 rounded-full animate-sparkle-4" style="bottom: 25px; right: 10px;"></div>
+                </div>
+            </div>
+            
+            <!-- Success Text with Gradient -->
+            <h2 class="text-xl font-bold mb-2 animate-fade-in bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent" style="animation-delay: 0.8s;">Image Successfully Created!</h2>
+            <p class="text-sm opacity-80 animate-fade-in" style="animation-delay: 1s;">Your masterpiece is ready ✨</p>
+            
+            <!-- Celebration Emojis with Rotation -->
+            <div class="mt-3 text-2xl animate-bounce-slow" style="animation-delay: 1.2s;">🎨✨🖼️</div>
+            
+            <!-- Progress Ring (Optional) -->
+            <div class="absolute inset-0 rounded-full border-2 border-gradient-to-r from-green-400 to-blue-500 opacity-30 animate-spin-slow" style="animation-duration: 8s;"></div>
+        </div>
+    `;
+    
+    // Add to body
+    document.body.appendChild(successOverlay);
+    
+    // Animate in with spring effect
+    setTimeout(() => {
+        const content = document.getElementById('success-content');
+        content.classList.remove('scale-0', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+        content.style.transform = 'scale(1.05)';
+        
+        setTimeout(() => {
+            content.style.transform = 'scale(1)';
+        }, 200);
+    }, 100);
+    
+    // Auto remove after 4 seconds (longer for better UX)
+    setTimeout(() => {
+        const content = document.getElementById('success-content');
+        content.style.transform = 'scale(0.95)';
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-0', 'opacity-0');
+        
+        setTimeout(() => {
+            if (successOverlay.parentElement) {
+                successOverlay.remove();
+            }
+        }, 700);
+    }, 4000);
+    
+    // Click to close with smooth transition
+    successOverlay.addEventListener('click', (e) => {
+        if (e.target === successOverlay) {
+            const content = document.getElementById('success-content');
+            content.style.transform = 'scale(0.95)';
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-0', 'opacity-0');
+            
+            setTimeout(() => {
+                if (successOverlay.parentElement) {
+                    successOverlay.remove();
+                }
+            }, 700);
+        }
+    });
+}
 
 // Performance Optimization System (Fixed)
 class PerformanceOptimizer {
