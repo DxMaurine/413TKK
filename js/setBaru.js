@@ -241,7 +241,7 @@ function addToHistory(_0x577142, _0x451785) {
     (_0x3b5180.className =
       'fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] hidden'),
     (_0x3b5180.innerHTML =
-      '\n                <div class="bg-white dark:bg-gray-900 rounded-lg p-6 max-w-3xl w-full max-h-[80vh] overflow-auto relative theme-3d theme-glass">\n                <button id="close-history-grid-modal" class="absolute top-2 right-2 p-2 rounded-full hover:bg-red-500 dark:hover:bg-red-500 theme-btn theme-3d theme-glass">\n                    <i class="ph ph-x text-xl"></i>\n                </button>\n                <h2 class="text-lg font-bold mb-4 flex items-center gap-2 theme-text theme-3d theme-glass"><i class="ph-fill ph-images"></i> Semua History Gambar</h2>\n                <div id="history-grid-content" class="grid grid-cols-2 md:grid-cols-4 gap-4 theme-3d theme-glass"></div>\n                <div id="history-preview-container" class="mt-6 hidden theme-3d theme-glass">\n                    <div class="flex flex-col items-center">\n                    <img id="history-preview-image" class="max-w-full max-h-96 rounded-lg shadow mb-4 theme-3d theme-glass" />\n                    <div id="history-preview-prompt" class="theme-text text-sm text-center theme-3d theme-glass"></div>\n                    </div>\n                </div>\n                </div>\n            '),
+      '\n                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 max-w-3xl w-full max-h-[80vh] overflow-auto relative theme-3d theme-glass">\n                <button id="close-history-grid-modal" class="absolute top-2 right-2 p-2 rounded-full hover:bg-red-500 dark:hover:bg-red-500 theme-btn theme-3d theme-glass">\n                    <i class="ph ph-x text-xl"></i>\n                </button>\n                <h2 class="text-lg font-bold mb-4 flex items-center gap-2 theme-text theme-3d theme-glass"><i class="ph-fill ph-images"></i> Semua History Gambar</h2>\n                <div id="history-grid-content" class="grid grid-cols-2 md:grid-cols-4 gap-4 theme-3d theme-glass"></div>\n                <div id="history-preview-container" class="mt-6 hidden theme-3d theme-glass">\n                    <div class="flex flex-col items-center">\n                    <img id="history-preview-image" class="max-w-full max-h-96 rounded-lg shadow mb-4 theme-3d theme-glass" />\n                    <div id="history-preview-prompt" class="theme-text text-sm text-center theme-3d theme-glass"></div>\n                    </div>\n                </div>\n                </div>\n            '),
     document.body.appendChild(_0x3b5180))
   _0x249080.onclick = async function () {
     const _0xdcc15b = localStorage.getItem('tkk-history')
@@ -336,7 +336,7 @@ enhanceBtn.addEventListener('click', async () => {
   }
 })
 ideaBtn.addEventListener('click', async () => {
-  loadingText.textContent = 'Mencari ide (AI)...'
+  loadingText.textContent = 'Membuat ide acak AI...'
   loadingIndicator.classList.remove('hidden')
   toggleButtons(true)
   try {
@@ -475,7 +475,7 @@ async function generateImage(_0x545859) {
         _0x2d77ea.innerHTML =
           '\n                            <img src="' +
           _0xe4da85 +
-          '" class="generated-image w-full h-full object-contain rounded-md">\n                            <button class="download-btn absolute top-2 right-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/75 transition-colors">\n                                <i class="ph-fill ph-download-simple"></i>\n                            </button>\n                        '
+          '" class="generated-image w-full h-full object-contain rounded-full">\n                            <button class="download-btn absolute top-2 right-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/75 transition-colors">\n                                <i class="ph-fill ph-download-simple"></i>\n                            </button>\n                        '
         imageGrid.appendChild(_0x2d77ea)
         _0x2d77ea.querySelector('.download-btn').onclick = async (
           _0x1d07e8
