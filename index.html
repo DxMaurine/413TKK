@@ -332,7 +332,7 @@
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
                     <span class="font-medium">Accent View Color</span>
-                    <input id="accent-color-picker" type="color" value="#cc0044" class="w-6 h-6 rounded-full border-2 border-gray-300 neumorphic-inset ml-2" style="padding:0;">
+                    <input id="accent-color-picker" type="color" value="#cc0044" class="w-8 h-8 rounded-full border-4 border-gray-300 neumorphic-inset ml-2" style="padding:0;">
                     <button id="accent-undo-btn" title="Undo" class="ml-2 p-1 rounded-full neumorphic-outset-interactive text-xs"><i class="ph-fill ph-arrow-counter-clockwise"></i></button>
                 </div>
                 <label class="inline-flex items-center cursor-pointer relative">
@@ -1483,21 +1483,29 @@
                     </h2>
                     <span class="text-gray-500 text-sm block mb-6">Atur jumlah gambar yang ingin dihasilkan dalam satu kali proses.</span>
                     
-                    <div class="flex items-center">
-                        <div class="flex-1">
-                            <label for="batch-select" class="font-medium mb-2 block">Batch of Images</label>
-                            <select id="batch-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
+                    <div class="grid grid-cols-2 gap-4 items-center">
+                        <div class="w-full">
+                            <label for="seed-input" class="font-medium mb-2 block">Seed</label>
+                            <input id="seed-input" type="text" value="" 
+                                class="w-full p-3 rounded-xxl focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                                placeholder="Kosong untuk Random">
                         </div>
-                        <button id="reset-batch-btn" type="button" title="Reset Batch Count"
-                            class="ml-3 mt-6 p-2 rounded-full neumorphic-outset-interactive flex items-center justify-center"
-                            style="width:32px;height:32px;min-width:32px;min-height:32px;">
-                            <i class="ph-fill ph-arrow-counter-clockwise text-lg"></i>
-                        </button>
+                        <div class="w-full flex items-center gap-2">
+                            <div class="flex-1">
+                                <label for="batch-select" class="font-medium mb-2 block">Batch of Images</label>
+                                <select id="batch-select" class="w-full p-3 neumorphic-inset custom-select rounded-xxl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                            <button id="reset-batch-btn" type="button" title="Reset Batch Count"
+                                class="mt-6 p-2 rounded-full neumorphic-outset-interactive flex items-center justify-center"
+                                style="width:32px;height:32px;min-width:32px;min-height:32px;">
+                                <i class="ph-fill ph-arrow-counter-clockwise text-lg"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="mt-6">
