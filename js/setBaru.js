@@ -475,7 +475,7 @@ async function generateImage(_0x545859) {
         _0x2d77ea.innerHTML =
           '\n                            <img src="' +
           _0xe4da85 +
-          '" class="generated-image w-full h-full object-contain rounded-full">\n                            <button class="download-btn absolute top-2 right-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/75 transition-colors">\n                                <i class="ph-fill ph-download-simple"></i>\n                            </button>\n                        '
+          '" class="generated-image w-full h-full object-contain rounded-xl">\n                            <button class="download-btn absolute top-2 right-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/75 transition-colors">\n                                <i class="ph-fill ph-download-simple"></i>\n                            </button>\n                        '
         imageGrid.appendChild(_0x2d77ea)
         _0x2d77ea.querySelector('.download-btn').onclick = async (
           _0x1d07e8
