@@ -158,7 +158,7 @@
     </script>
     
     <!-- Setting Popup Modal -->
-    <div id="setting-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div id="setting-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[2px] p-2">
         <div id="setting-modal-content" class="glassmorph neumorphic-outset max-w-sm w-full p-6 rounded-2xl relative text-center">
             <button id="close-setting-modal" class="absolute top-3 right-3 p-2 rounded-full neumorphic-outset-interactive">
                 <i class="ph-fill ph-x"></i>
@@ -387,31 +387,79 @@
                     <button id="reset-api-key-btn" type="button" title="Hapus API Key" class="p-2 rounded-full neumorphic-outset-interactive text-gray-500 hover:text-red-600 transition">
                         <i class="ph-fill ph-arrow-counter-clockwise"></i>
                     </button>
+                    <button id="gem-key-info-btn" type="button" class="p-2 rounded-full neumorphic-outset-interactive text-gray-500 hover:text-indigo-600 transition">
+                        <i class="ph-fill ph-info text-lg"></i>
+                    </button>
                 </div>
                 <button id="save-api-key-btn" class="btn btn-primary w-full text-sm mt-2 flex items-center justify-center gap-2 rounded-lg">
                     <i class="ph-fill ph-check"></i>
                     Validasi & Simpan
                 </button>
-                <!-- Notice: API Key Logic Info -->
-                <div id="api-key-notice" class="mt-3 mb-2 px-4 py-3 rounded-xl neumorphic-inset glassmorph border border-indigo-200/60 bg-gradient-to-br from-indigo-50/80 to-white/80 shadow flex items-center gap-3 text-left">
-                    <i class="ph-fill ph-info text-indigo-500 text-2xl flex-shrink-0"></i>
-                    <div class="flex-1 text-xs sm:text-sm text-gray-700 leading-relaxed">
-                        <b>GEM Key hanya bisa dipakai <span class="text-indigo-600">sekali</span> di 1 perangkat/browser.</b>
-                        <br>
-                        Aktif selama <b>5 hari</b>, lalu kadaluarsa otomatis.
-                        <br>
-                        <span class="text-green-600 font-semibold">+10 GEM</span> langsung ditambahkan jika valid.
-                        <br>
-                        <span class="text-green-600 font-semibold">
-                            Belum punya GEMKey? 
-                            <a href="https://www.facebook.com/groups/407347088866675" target="_blank" class="underline hover:text-blue-800">Hub Admin FB</a>
-                        </span>
-                    </div>
-                </div>
                 <!-- Spacer for timer -->
                 <div style="height: 18px;"></div>
                 <div id="api-key-timer" class="text-xs text-gray-500 mt-1 text-center hidden"></div>
             </div>
+            
+            <!-- GEM Key Info Popup -->
+            <div id="gem-key-info-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+                <div class="glassmorph max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="gem-key-info-modal">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 rounded-full neumorphic-inset">
+                                    <i class="ph-fill ph-info text-indigo-500 text-xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold ai-text-color">Informasi GEM Key</h3>
+                            </div>
+                            <button id="close-gem-key-info" class="p-2 rounded-full neumorphic-outset-interactive transition-colors">
+                                <i class="ph-fill ph-x text-gray-500 dark:text-gray-400"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="p-3 rounded-lg neumorphic-inset">
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-warning-circle text-amber-500 mt-0.5 flex-shrink-0 text-lg"></i>
+                                    <div class="text-sm ai-text-color">
+                                        <strong>GEM Key hanya bisa dipakai <span class="text-indigo-600 dark:text-indigo-400">sekali</span> di 1 perangkat/browser.</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 rounded-lg neumorphic-inset">
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-clock text-blue-500 mt-0.5 flex-shrink-0 text-lg"></i>
+                                    <div class="text-sm ai-text-color">
+                                        Aktif selama <strong>5 hari</strong>, lalu kadaluarsa otomatis.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 rounded-lg neumorphic-inset">
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-plus-circle text-green-500 mt-0.5 flex-shrink-0 text-lg"></i>
+                                    <div class="text-sm ai-text-color">
+                                        <span class="text-green-600 dark:text-green-400 font-semibold">+50 GEM</span> langsung ditambahkan jika valid.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 rounded-lg neumorphic-inset">
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-question text-purple-500 mt-0.5 flex-shrink-0 text-lg"></i>
+                                    <div class="text-sm ai-text-color">
+                                        <span class="font-semibold">
+                                            Belum punya GEMKey? 
+                                            <a href="https://www.facebook.com/groups/407347088866675" target="_blank" class="text-indigo-600 dark:text-indigo-400 underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Hub Admin FB</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <script>
             // --- API KEY LOGIC (One-Time Use, Voucher-Style) ---
             (function() {
@@ -565,11 +613,11 @@
                     e.preventDefault();
                     const key = input.value.trim();
                     if (!key) {
-                        window.showGlobalNotif && window.showGlobalNotif("Masukkan GEM Key terlebih dahulu.");
+                        window.showGlobalNotif && window.showGlobalNotif("Masukkan GEM Key Anda!.");
                         return;
                     }
                     if (isGlobalUsed(key)) {
-                        window.showGlobalNotif && window.showGlobalNotif("GEM Key sudah pernah digunakan.");
+                        window.showGlobalNotif && window.showGlobalNotif("GEM Key sudah digunakan.");
                         setBtnState(false);
                         input.value = "";
                         return;
@@ -578,7 +626,7 @@
                         saveKey(key);
                         setBtnState(true);
                         addGemBonus();
-                        window.showGlobalNotif && window.showGlobalNotif("GEM Key valid! 10 GEM ditambahkan.");
+                        window.showGlobalNotif && window.showGlobalNotif("GEM Key valid! 50 GEM ditambahkan.");
                     } else {
                         window.showGlobalNotif && window.showGlobalNotif("GEM Key tidak valid.");
                     }
@@ -597,6 +645,86 @@
                         } catch {}
                     }
                 };
+                
+                // GEM Key Info Button
+                const infoBtn = document.getElementById('gem-key-info-btn');
+                const infoPopup = document.getElementById('gem-key-info-popup');
+                const infoModal = document.getElementById('gem-key-info-modal');
+                const closeInfoBtn = document.getElementById('close-gem-key-info');
+                
+                function showGemKeyInfo() {
+                    infoPopup.classList.remove('hidden');
+                    setTimeout(() => {
+                        infoModal.classList.remove('scale-95', 'opacity-0');
+                        infoModal.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+                
+                function hideGemKeyInfo() {
+                    infoModal.classList.remove('scale-100', 'opacity-100');
+                    infoModal.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        infoPopup.classList.add('hidden');
+                    }, 300);
+                }
+                
+                infoBtn.onclick = showGemKeyInfo;
+                closeInfoBtn.onclick = hideGemKeyInfo;
+                
+                // Close on backdrop click
+                infoPopup.addEventListener('click', function(e) {
+                    if (e.target === infoPopup) {
+                        hideGemKeyInfo();
+                    }
+                });
+                
+                // Close on Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && !infoPopup.classList.contains('hidden')) {
+                        hideGemKeyInfo();
+                    }
+                });
+                
+                // GEM Key Info Popup Logic
+                (function() {
+                    const infoBtn = document.getElementById('gem-key-info-btn');
+                    const popup = document.getElementById('gem-key-info-popup');
+                    const modal = document.getElementById('gem-key-info-modal');
+                    const closeBtn = document.getElementById('close-gem-key-info');
+                    
+                    function showPopup() {
+                        popup.classList.remove('hidden');
+                        setTimeout(() => {
+                            modal.classList.remove('scale-95', 'opacity-0');
+                            modal.classList.add('scale-100', 'opacity-100');
+                        }, 10);
+                    }
+                    
+                    function hidePopup() {
+                        modal.classList.remove('scale-100', 'opacity-100');
+                        modal.classList.add('scale-95', 'opacity-0');
+                        setTimeout(() => {
+                            popup.classList.add('hidden');
+                        }, 300);
+                    }
+                    
+                    infoBtn.addEventListener('click', showPopup);
+                    closeBtn.addEventListener('click', hidePopup);
+                    
+                    // Close on backdrop click
+                    popup.addEventListener('click', (e) => {
+                        if (e.target === popup) {
+                            hidePopup();
+                        }
+                    });
+                    
+                    // Close on Escape key
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && !popup.classList.contains('hidden')) {
+                            hidePopup();
+                        }
+                    });
+                })();
             })();
 
             // --- GEM RESET EXCEPTION FOR API KEY USERS ---
@@ -1115,17 +1243,17 @@
                             <button id="idea-btn" title="✨ Beri Ide Acak" class="absolute top-3 right-3 p-1 rounded-full hover:bg-white/60 neumorphic-outset-interactive"><i class="ph ph-lightbulb text-xl text-amber-500"></i></button>
                         </div>
                         <div class="flex flex-wrap gap-2 justify-center mt-2">
-<button id="enhance-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-lg flex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
+<button id="enhance-btn" class="btn btn-secondary action-btn text-sm px-2 py-2 rounded-xxlflex-1 min-w-[80px] max-w-[120px] flex items-center justify-center gap-1">
     <i class="ph-fill ph-magic-wand"></i>
     <span class="whitespace-nowrap">Enhancer</span>
 </button>
-                            <button id="copy-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                            <button id="copy-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-xxl flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
                                 <i class="ph-fill ph-copy text-lg"></i>
                             </button>
-                            <button id="paste-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                            <button id="paste-btn" class="btn btn-secondary action-btn text-sm px-3 py-2 rounded-xxl flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
                                 <i class="ph-fill ph-clipboard text-lg"></i>
                             </button>
-                            <button id="clear-btn" class="btn btn-danger action-btn text-sm px-3 py-2 rounded-lg flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
+                            <button id="clear-btn" class="btn btn-danger action-btn text-sm px-3 py-2 rounded-xxl flex-1 min-w-[50px] max-w-[60px] flex items-center justify-center">
                                 <i class="ph-fill ph-trash text-lg"></i>
                             </button>
                         </div>
@@ -1133,7 +1261,7 @@
                         <!-- Stock Prompt Accordion -->
                         <div class="mt-4">
                             <button id="stock-prompt-toggle" type="button"
-                                class="w-full flex items-center justify-between p-3 rounded-md neumorphic-outset-interactive glassmorph transition font-semibold text-sm ai-text-color focus:outline-none"
+                                class="w-full flex items-center justify-between p-3 rounded-2xl neumorphic-outset-interactive glassmorph transition font-semibold text-sm ai-text-color focus:outline-none"
                                 style="background: var(--glass-bg); border: 1.5px solid var(--glass-border);">
                                 <span class="flex items-center gap-2">
                                     <i class="ph ph-lightbulb text-yellow-500"></i>
@@ -1244,7 +1372,7 @@
                         <div>
                             <label for="art-style-select" class="font-medium mb-2 block">Art Style</label>
                             <select id="art-style-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="" disabled selected>--Otomatis--</option>
+                                <option value="" disabled selected>Otomatis</option>
                                 <option value="photographic style">photographic</option>
                                 <option value="realistic style">realistic</option>
                                 <option value="digital art style">digital art</option>
@@ -1301,7 +1429,7 @@
                         <div>
                             <label for="style-select" class="font-medium mb-2 block">Lighting Style</label>
                             <select id="style-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="" disabled selected>--Otomatis--</option>
+                                <option value="" disabled selected>Otomatis</option>
                                 <option value="cinematic lighting">cinematic</option>
                                 <option value="dramatic lighting">dramatic</option>
                                 <option value="natural lighting">natural</option>
@@ -1344,31 +1472,41 @@
                                 <option value="9:16 aspect ratio">9:16 (Potrait)</option>
                             </select>
                         </div>
-                        <div class="sm:col-span-2 flex items-center">
-                            <div class="flex-1">
-                                <label for="batch-select" class="font-medium mb-2 block">Batch of Images</label>
-                                <select id="batch-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
-                            <button id="reset-batch-btn" type="button" title="Reset Batch Count"
-                                class="ml-3 mt-6 p-2 rounded-full neumorphic-outset-interactive flex items-center justify-center"
-                                style="width:32px;height:32px;min-width:32px;min-height:32px;">
-                                <i class="ph-fill ph-arrow-counter-clockwise text-lg"></i>
-                            </button>
+                    </div>  
+                </section>
+                
+                <!-- Batch Settings Section -->
+                <section class="neumorphic-outset p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="ph-fill ph-stack text-indigo-500 text-2xl"></i>
+                        Batch Settings
+                    </h2>
+                    <span class="text-gray-500 text-sm block mb-6">Atur jumlah gambar yang ingin dihasilkan dalam satu kali proses.</span>
+                    
+                    <div class="flex items-center">
+                        <div class="flex-1">
+                            <label for="batch-select" class="font-medium mb-2 block">Batch of Images</label>
+                            <select id="batch-select" class="w-full p-3 neumorphic-inset custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
                         </div>
-                        
+                        <button id="reset-batch-btn" type="button" title="Reset Batch Count"
+                            class="ml-3 mt-6 p-2 rounded-full neumorphic-outset-interactive flex items-center justify-center"
+                            style="width:32px;height:32px;min-width:32px;min-height:32px;">
+                            <i class="ph-fill ph-arrow-counter-clockwise text-lg"></i>
+                        </button>
                     </div>
+                    
                     <div class="mt-6">
                         <button id="generate-btn" class="btn btn-primary text-lg space-x-2"><i class="ph-fill ph-image text-xl"></i><span>Buat Gambar</span></button>
                     </div>
-                    <!-- Tips Accordion -->
+                     <!-- Tips Accordion -->
                     <div class="mt-3 text-xs">
                         <button id="tips-accordion-toggle" type="button"
-                            class="w-full flex items-center justify-between p-2 rounded-md neumorphic-outset-interactive glassmorph transition font-medium text-[12px] text-blue-800 focus:outline-none"
+                            class="w-full flex items-center justify-between p-2 rounded-xxl neumorphic-outset-interactive glassmorph transition font-medium text-[12px] text-blue-800 focus:outline-none"
                             style="background: #e0f2fe; border-left: 3px solid #60a5fa;">
                             <span class="flex items-center gap-1">
                                 <i class="ph ph-lightbulb text-blue-400 text-base"></i>
@@ -1377,7 +1515,7 @@
                             <i id="tips-accordion-arrow" class="ph ph-caret-down text-base transition-transform"></i>
                         </button>
                         <div id="tips-accordion-content"
-                            class="hidden mt-1 rounded-md bg-blue-50 border-l-4 border-blue-200 text-blue-800 text-[12px] font-family p-2">
+                            class="hidden mt-1 rounded-xxl bg-blue-50 border-l-4 border-blue-200 text-blue-800 text-[12px] font-family p-2">
                             💡  Beberapa opsi mungkin tidak didukung oleh model AI tertentu.
                             <br>🔍 Gunakan opsi "Otomatis" untuk hasil terbaik.
                             <br>📏 Ukuran gambar dapat mempengaruhi kecepatan dan kualitas
@@ -1386,7 +1524,6 @@
                             <br>🎨 Pastikan untuk menggunakan gambar yang sesuai dengan gaya dan konten.
                         </div>
                     </div>
-                  
                 </section>
                 
                 <!-- Advanced Tools Section -->
@@ -1410,7 +1547,7 @@
                             <button data-tool="upscale" class="tool-btn relative">
                                 <i class="ph-fill ph-magnifying-glass"></i>
                                 <span>AI Vision</span>
-                                <span class="absolute -top-1 -right-2 bg-green-400 text-xs font-bold px-2 py-0.5 rounded-full shadow text-gray-800">Evaluation</span>
+                                <span class="absolute -top-1 -right-2 bg-green-400 text-xs font-bold px-2 py-0.5 rounded-full shadow text-gray-800">New</span>
                             </button>
                             <button data-tool="chat" class="tool-btn relative">
                                 <i class="ph-fill ph-chats-circle"></i>
@@ -1982,9 +2119,9 @@
         <div class="container mx-auto text-center text-sm">
             <div class="flex flex-col items-center gap-2">
                 <div class="flex flex-wrap items-center gap-2 justify-center text-gray-500">
-                    <span><b>© 2024 TKK Imagen</b></span>
+                    <span><b>© 2025 TKK Imagen</b></span>
                     <span class="text-gray-400">|</span>
-                    <span><b>Made With ❤️ By TKK Teams.</b></span>
+                    <span><b>Made With ❤️ By TKK.</b></span>
                     <span class="text-gray-400"></span>
                 </div>
                 <div class="text-gray-400 mt-2">
@@ -1996,7 +2133,7 @@
 
     <!-- GLOBAL LOADING SPINNER -->
     <div id="loading-indicator" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
-        <div class="neumorphic-outset p-6 rounded-lg flex flex-col items-center gap-4 w-full max-w-xs">
+        <div class="neumorphic-outset p-6 rounded-xxl flex flex-col items-center gap-4 w-full max-w-xs">
              <svg class="animate-spin h-10 w-10 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
            <p id="loading-text" class="font-medium text-center">Membuat keajaiban...</p>
         </div>
