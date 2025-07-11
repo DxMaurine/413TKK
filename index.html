@@ -1352,18 +1352,18 @@
                                     </div>
                                     <i class="ph ph-caret-down"></i>
                                 </div>
-                                <div id="model-dropdown" class="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50 hidden">
-                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer flex items-center space-x-3" data-value="style of flux" data-image="assets/aset2.jpg">
+                                <div id="model-dropdown" class="absolute top-full left-0 right-0 mt-1 neumorphic-inset rounded-lg shadow-lg z-50 hidden" style="background: var(--glass-bg); border: 1px solid var(--glass-border);">
+                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 neumorphic-outset-interactive cursor-pointer flex items-center space-x-3 transition-colors" data-value="style of flux" data-image="assets/aset2.jpg">
                                         <img src="assets/aset2.jpg" alt="Flux" class="w-6 h-6 rounded-full object-cover">
-                                        <span>Flux</span>
+                                        <span class="ai-text-color">Flux</span>
                                     </div>
-                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer flex items-center space-x-3" data-value="style of gptimage" data-image="assets/aset3.jpeg">
+                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 neumorphic-outset-interactive cursor-pointer flex items-center space-x-3 transition-colors" data-value="style of gptimage" data-image="assets/aset3.jpeg">
                                         <img src="assets/aset3.jpeg" alt="GPT Image" class="w-6 h-6 rounded-full object-cover">
-                                        <span>GPT Image</span>
+                                        <span class="ai-text-color">GPT Image</span>
                                     </div>
-                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer flex items-center space-x-3" data-value="style of turbo" data-image="assets/aset4.jpeg">
+                                    <div class="model-option p-3 hover:bg-gray-50 dark:hover:bg-gray-700 neumorphic-outset-interactive cursor-pointer flex items-center space-x-3 transition-colors" data-value="style of turbo" data-image="assets/aset4.jpeg">
                                         <img src="assets/aset4.jpeg" alt="Turbo" class="w-6 h-6 rounded-full object-cover">
-                                        <span>Turbo</span>
+                                        <span class="ai-text-color">Turbo</span>
                                     </div>
                                 </div>
                                 <input type="hidden" id="model-select" value="style of flux">
@@ -1479,7 +1479,7 @@
                 <section class="neumorphic-outset p-6">
                     <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
                         <i class="ph-fill ph-stack text-indigo-500 text-2xl"></i>
-                        Batch & Seed Settings
+                        Batch Settings
                     </h2>
                     <span class="text-gray-500 text-sm block mb-6">Atur jumlah gambar yang ingin dihasilkan dalam satu kali proses.</span>
                     
@@ -1488,7 +1488,7 @@
                             <label for="seed-input" class="font-medium mb-2 block">Seed</label>
                             <input id="seed-input" type="text" value="" 
                                 class="w-full p-3 rounded-xxl focus:outline-none focus:ring-2 focus:ring-indigo-500" 
-                                placeholder="Leave for Random">
+                                placeholder="Kosong untuk Random">
                         </div>
                         <div class="w-full flex items-center gap-2">
                             <div class="flex-1">
